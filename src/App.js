@@ -13,6 +13,7 @@ import './App.css';
 const AppWrapper = styled.div`
 height: 100vh;
 width: 100vw;
+min-width: 340px;
 background-image: url(${background});
 background-repeat: no-repeat;
 background-size: cover;

@@ -7,6 +7,8 @@ import { usePosition } from 'use-position';
 const SearchWrapper = styled.div`
 height: 12vh;
 width: 40vw;
+max-width: 470px;
+min-width: 254px;
 display:flex;
 flex-direction: column;
 background-color: white;
