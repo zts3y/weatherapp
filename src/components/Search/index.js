@@ -48,7 +48,7 @@ const Search = withRouter(({history, className}) => {
             getCity();
 
         return () => (isSubscribed = false);
-      }, [latitude, longitude]);
+      }, [latitude, longitude, timestamp]);
 
       const validateSearchForm = (e) => {
         if(!e.target[0].value){
@@ -61,7 +61,7 @@ const Search = withRouter(({history, className}) => {
         <SearchWrapper className={className}>
             <h2 className={className}>Enter your location:</h2>
             <form name="locationSearch" onSubmit={validateSearchForm} className={className} > 
-                <input name="location" type="text" placeholder="Enter your City, State" value={location} className={className}></input>
+                <input name="location" type="text" placeholder="Enter your City, State" value={location} className={className} onChange={(e)=> setLocation(e.target.value)}></input>
                 <button type="submit" className={`${className} btn-primary`}>Search</button>
             </form>
         </SearchWrapper>
@@ -99,6 +99,5 @@ button{
     border-style: solid;
     border-color: rgb(102, 10, 33);
     border-radius: 2px;
-}
 }
 `
