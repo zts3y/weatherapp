@@ -99,5 +99,6 @@ button{
     border-style: solid;
     border-color: rgb(102, 10, 33);
     border-radius: 2px;
+    cursor: pointer;
 }
 `
