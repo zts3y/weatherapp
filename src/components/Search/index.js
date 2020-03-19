@@ -1,7 +1,6 @@
-import React, {useState, useEffect, useMemo} from 'react';
+import React, {useState, useEffect} from 'react';
 import { withRouter } from "react-router-dom";
 import styled from "styled-components";
-import {motion} from "framer-motion";
 import { usePosition } from 'use-position';
 
 const SearchWrapper = styled.div`
@@ -21,7 +20,7 @@ text-align: left;
 
 const Search = withRouter(({history, className}) => {
     const [location, setLocation] = useState("");
-    const { latitude, longitude, timestamp, accuracy, error } = usePosition();
+    const { latitude, longitude, timestamp } = usePosition();
     const [formError, setFormError] = useState("");
     useEffect(() => {
         let isSubscribed = true;
@@ -37,7 +36,7 @@ const Search = withRouter(({history, className}) => {
               .then(response => response.json())
               .then(data => {
                 if (isSubscribed){
-                    setLocation(data.city ? `${data.city}, ${data.state}` : `${latitude}, ${longitude}`);
+                    setLocation(data.city ? `${data.city}, ${data.state} ${data.prov}` : `${latitude}, ${longitude}`);
                 } 
               })
           } catch (e) {
@@ -51,10 +50,11 @@ const Search = withRouter(({history, className}) => {
       }, [latitude, longitude, timestamp]);
 
       const validateSearchForm = (e) => {
+        //change out form validation logic
         if(!e.target[0].value){
             setFormError("Location is required");
         } else {
-            history.push(`/forecast?q=${location}`);
+            history.push(`/forecast/${location}`);
         }
       }
     return (

@@ -16,7 +16,8 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
     "styled-components": "^5.0.1",
-    "use-position": "0.0.6"
+    "use-position": "0.0.6",
+    "weather-underground-icons": "^1.0.0"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -15,7 +15,7 @@ const Header = ({className}) => {
     return (
         <HeaderWrapper id="header" className={className}>
             <motion.div animate={{rotate: 360}} transition={{loop: "Infinity", duration: 9, ease:"linear"}}>
-                <Logo className={`${className} logo`}/>
+                <a href="/" className={className}><Logo className={`${className} logo`}/></a>
             </motion.div>
             <span>Palmetto Weather</span>
         </HeaderWrapper>
@@ -23,9 +23,13 @@ const Header = ({className}) => {
 }
 
 export default styled(Header)`
+a{
+    text-decoration:none;
+}
 .logo{
     height:50px;
     width:50px;
+    color:white;
 }
 span{
     font-family: "Big Shoulders Display",Impact,sans-serif;

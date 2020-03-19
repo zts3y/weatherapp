@@ -1,12 +1,13 @@
 import React from 'react';
 import styled from "styled-components"
+import { AnimatePresence } from "framer-motion";
 import {
   BrowserRouter as Router,
   Route,
   Switch,
   Redirect
 } from "react-router-dom";
-import { Header, Search } from "./components"
+import { Header, Search, Forecast } from "./components"
 import background from './resources/1.jpeg';
 import './App.css';
 
@@ -25,15 +26,17 @@ function App({ className }) {
       <AppWrapper className={`${className} App`}>
         <Header className={className} />
         <div id="main" className={className}>
+        <AnimatePresence exitBeforeEnter initial={false}>
           <Switch>
             <Route path="/" exact component={Search} />
-            <Route path="/forecast" component={() => <div></div>} />
+            <Route path="/forecast/:q" component={Forecast} />
             <Route
               component={() => {
                 return <Redirect to="/" />;
               }}
             />
           </Switch>
+          </AnimatePresence>
         </div>
       </AppWrapper>
     </Router>
