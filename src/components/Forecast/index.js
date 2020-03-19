@@ -30,7 +30,7 @@ const Forecast = ({ className }) => {
     const getForecast = async () => {
       try {
         await fetch(
-          `http://api.openweathermap.org/data/2.5/weather?q=${params.q}&APPID=4df68fc3aa9e8911636d4bc96db781ef&units=imperial`,
+          `https://api.openweathermap.org/data/2.5/weather?q=${params.q}&APPID=4df68fc3aa9e8911636d4bc96db781ef&units=imperial`,
           {
             mode: "cors"
           }
