@@ -9,6 +9,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
+    "encoding": "^0.1.12",
     "framer-motion": "^1.9.1",
     "netlify-lambda": "^1.6.3",
     "node-fetch": "^2.6.0",
@@ -26,9 +27,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "start:lambda" :"netlify-lambda serve functions",
-    "build:lambda" :"netlify-lambda build functions"
-
+    "start:lambda": "netlify-lambda serve functions",
+    "build:lambda": "netlify-lambda build functions"
   },
   "eslintConfig": {
     "extends": "react-app"
