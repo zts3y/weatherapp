@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 import { usePosition } from 'use-position';
+import config from "../../config"
 
 const SearchWrapper = styled.div`
 height: 12vh;
@@ -28,15 +29,15 @@ const Search = withRouter(({history, className}) => {
         const getCity = async () => {
           try {
             await fetch(
-              `https://geocode.xyz/${latitude},${longitude}?geoit=json`,
+              `${config.API.URL}/locate?lat=${latitude}&long=${longitude}`,
               {
                 mode: "cors"
               }
             )
-              .then(response => response.json())
+              .then(response => response.text())
               .then(data => {
                 if (isSubscribed){
-                    setLocation(data.city ? `${data.city}, ${data.state} ${data.prov}` : `${latitude}, ${longitude}`);
+                    setLocation(data);
                 } 
               })
           } catch (e) {
