@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { motion } from "framer-motion";
-
+import config from "../../config"
 import weatherIcons from "../../resources/weatherIcons";
 
 const ForecastWrapper = styled.div`
@@ -30,7 +30,7 @@ const Forecast = ({ className }) => {
     const getForecast = async () => {
       try {
         await fetch(
-          `https://api.openweathermap.org/data/2.5/weather?q=${params.q}&APPID=4df68fc3aa9e8911636d4bc96db781ef&units=imperial`,
+          `${config.API.URL}/forecast?q=${params.q}`,
           {
             mode: "cors"
           }
