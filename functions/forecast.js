@@ -3,7 +3,7 @@ const fetch = require("node-fetch").default;
 exports.handler = async function (event, context, callback) {
   try {
     const location = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${event.queryStringParameters.q}&APPID=${process.env.WEATHER_KEY}&units=imperial`
+      `https://api.openweathermap.org/data/2.5/weather?lat=${event.queryStringParameters.lat}&lon=${event.queryStringParameters.lon}&APPID=${process.env.WEATHER_KEY}&units=imperial`
     )
       .then(response => response.json())
       .then(data => {

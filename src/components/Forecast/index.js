@@ -30,7 +30,7 @@ const Forecast = ({ className }) => {
     const getForecast = async () => {
       try {
         await fetch(
-          `${config.API.URL}/forecast?q=${params.q}`,
+          `${config.API.URL}/forecast?lat=${params.lat}&lon=${params.lon}`,
           {
             mode: "cors"
           }

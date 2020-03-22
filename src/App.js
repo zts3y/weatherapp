@@ -29,7 +29,7 @@ function App({ className }) {
         <AnimatePresence exitBeforeEnter initial={false}>
           <Switch>
             <Route path="/" exact component={Search} />
-            <Route path="/forecast/:q" component={Forecast} />
+            <Route path="/forecast/:lat/:lon" component={Forecast} />
             <Route
               component={() => {
                 return <Redirect to="/" />;

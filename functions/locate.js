@@ -10,9 +10,15 @@ exports.handler = async function (event, context, callback) {
         //console.log(data);
         return ({
           statusCode: 200,
-          body: data.city
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({loc: data.city
             ? `${data.city}, ${data.state} ${data.prov}`
-            : `${event.queryStringParameters.lat}, ${event.queryStringParameters.long}`
+            : `${event.queryStringParameters.lat}, ${event.queryStringParameters.long}`,
+            lat: parseFloat(event.queryStringParameters.lat),
+            long: parseFloat(event.queryStringParameters.long)
+          })
         })
       }).catch(e => {
         console.log(e);
