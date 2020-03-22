@@ -4,25 +4,26 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 import config from "../../config"
 import weatherIcons from "../../resources/weatherIcons";
-
+import LineGraph from "./LineGraph";
 const ForecastWrapper = styled.div`
-  height: 50vh;
+  height: 70vh;
   width: 60vw;
   min-width: 254px;
-  max-width: 500px;
   display: flex;
   flex-direction: column;
   background-color: white;
   border-radius: 10px;
   box-shadow: rgba(25, 17, 34, 0.55) 0px 3px 10px;
   padding: 1rem;
-  margin-top: 15vh;
+  margin-top: 5vh;
   text-align: left;
 `;
 
 const Forecast = ({ className }) => {
   const params = useParams();
   const [forecastData, setForecastData] = useState({});
+  const [extended, setExtended] = useState({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let isSubscribed = true;
@@ -40,7 +41,8 @@ const Forecast = ({ className }) => {
             if (isSubscribed) {
               setForecastData(data);
             }
-          });
+          })
+          .then(setLoading(false));
       } catch (e) {
         console.error(e);
       }
@@ -72,18 +74,28 @@ const Forecast = ({ className }) => {
   };
 
   const degreesToDirection = deg => {
-    const dirs = ["N","NNE","NE","ENE","E","ESE", "SE", "SSE","S","SSW","SW","WSW","W","WNW","NW","NNW"]
-    return dirs[parseInt(deg/22.5+0.5) % 16]
+    const dirs = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"]
+    return dirs[parseInt(deg / 22.5 + 0.5) % 16]
   };
-  if (Object.keys(forecastData).length > 0 && forecastData.weather) {
+
+  const manipulateGraphData = graphData => {
+    return [{
+      id: `Temperature`,
+      color: "hsl(185, 70%, 50%)",
+      data: graphData.map(metric => {return { x: metric.dt, y: metric.main.temp }})
+    }];
+
+  };
+
+  if (forecastData.current && forecastData.current.weather && !loading) {
     return (
       <ForecastWrapper className={className}>
-        <h3 className={className}>Your forecast for {forecastData.name}.</h3>
+        <h3 className={className}>Your forecast for {forecastData.current.name}.</h3>
         <span className={className}>
           {new Date(forecastData.dt * 1000).toLocaleString()}
         </span>
         <span className={className}>
-          {forecastData.weather
+          {forecastData.current.weather
             .map(weather => titleCase(weather.description))
             .join(", ")}
         </span>
@@ -92,23 +104,28 @@ const Forecast = ({ className }) => {
             <img
               alt="weather icon"
               src={getWeatherIcon(
-                forecastData.weather[0].id,
-                forecastData.dt,
-                forecastData.sys.sunrise,
-                forecastData.sys.sunset
+                forecastData.current.weather[0].id,
+                forecastData.current.dt,
+                forecastData.current.sys.sunrise,
+                forecastData.current.sys.sunset
               )}
               className={`weathericon ${className}`}
             />
             <div className={className}>
-              {Math.ceil(forecastData.main.temp)}
+              {Math.ceil(forecastData.current.main.temp)}
               <span>°F</span>
             </div>
           </div>
           <div className={`weatherDetails ${className}`}>
-            <div>Humitidy: {forecastData.main.humidity}%</div>
-            <div>Wind: {degreesToDirection(forecastData.wind.deg)} {Math.ceil(forecastData.wind.speed)}mph</div>
+            <div>Humitidy: {forecastData.current.main.humidity}%</div>
+            <div>Wind: {degreesToDirection(forecastData.current.wind.deg)} {Math.ceil(forecastData.current.wind.speed)}mph</div>
           </div>
         </div>
+        <div className={`weatherGraph ${className}`}>
+        <LineGraph
+          leftAxis={"Temperature"}
+          data={manipulateGraphData(forecastData.extended.list)}
+        /></div>
       </ForecastWrapper>
     );
   } else {
@@ -137,6 +154,8 @@ export default styled(Forecast)`
   .weatherCurrent > div > span {
     font-size: 16px;
   }
-  .weatherDetails {
+  .weatherGraph {
+    height:600px;
+    width: 100%;
   }
 `;
