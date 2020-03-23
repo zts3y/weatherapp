@@ -3,7 +3,7 @@
 ## Dependencies
 - Node.js installed (created using 12.16.1)
 - API key set for [OpenWeather API](https://openweathermap.org/api)
--- This key should be saved in an environment variable via `export WEATHER_KEY=<YOUR_API_KEY>`
+    - This key should be saved in an environment variable via `export WEATHER_KEY=<YOUR_API_KEY>`
 
 ## Running locally
 1. Ensure that the environemnt variable for the OpenWeather API has been set per above.
