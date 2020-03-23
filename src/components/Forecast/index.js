@@ -22,6 +22,12 @@ const ForecastWrapper = styled.div`
   padding: 1rem;
   margin-top: 5vh;
   text-align: left;
+
+  @media (max-width: 992px) {
+    width: 86vw;
+    margin-top: 2vh;
+  }
+
 `;
 
 const Forecast = ({ className, history }) => {
@@ -137,7 +143,7 @@ const Forecast = ({ className, history }) => {
           </div>
         </div>
         <div className={`weatherGraph ${className}`}>
-          <h3 className={className}>5 day temperature</h3>
+          <h3 className={className}>5-day Temperature Outlook</h3>
           <LineGraph
             leftAxis={"Temperature (°F)"}
             data={manipulateGraphData(forecastData.extended.list)}
