@@ -5,13 +5,14 @@ import { motion } from "framer-motion";
 import config from "../../config"
 import weatherIcons from "../../resources/weatherIcons";
 import LineGraph from "./LineGraph";
+
 const ForecastWrapper = styled.div`
-  height: 70vh;
+  height: 74vh;
   width: 60vw;
   min-width: 254px;
   display: flex;
   flex-direction: column;
-  background-color: white;
+  background-color: rgba(255,255,255,0.5);
   border-radius: 10px;
   box-shadow: rgba(25, 17, 34, 0.55) 0px 3px 10px;
   padding: 1rem;
@@ -89,10 +90,11 @@ const Forecast = ({ className }) => {
 
   if (forecastData.current && forecastData.current.weather && !loading) {
     return (
+      <div style={{display:"flex;"}}>
       <ForecastWrapper className={className}>
         <h3 className={className}>Your forecast for {forecastData.current.name}.</h3>
         <span className={className}>
-          {new Date(forecastData.dt * 1000).toLocaleString()}
+          {new Date(forecastData.current.dt * 1000).toLocaleString()}
         </span>
         <span className={className}>
           {forecastData.current.weather
@@ -127,6 +129,7 @@ const Forecast = ({ className }) => {
           data={manipulateGraphData(forecastData.extended.list)}
         /></div>
       </ForecastWrapper>
+      </div>
     );
   } else {
     return null;
@@ -157,5 +160,6 @@ export default styled(Forecast)`
   .weatherGraph {
     height:600px;
     width: 100%;
+    background-color: white;
   }
 `;

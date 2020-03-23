@@ -11,7 +11,7 @@ max-width: 470px;
 min-width: 254px;
 display:flex;
 flex-direction: column;
-background-color: white;
+background-color: rgba(255,255,255,0.5);
 border-radius: 10px;
 box-shadow: rgba(25, 17, 34, 0.55) 0px 3px 10px;
 padding: 1rem;
@@ -73,13 +73,15 @@ export default styled(Search)`
 h2{
     margin-top:0px;
 }
+form{
+  display:flex;
+}
 input{
-    height: 20px;
+    height: 33px;
     width: 100%
 }
 
 button{
-    margin-top: 5px;
     align-self: center;
     font-weight: 600;
 	display: inline-block;
