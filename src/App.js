@@ -26,16 +26,16 @@ function App({ className }) {
       <AppWrapper className={`${className} App`}>
         <Header className={className} />
         <div id="main" className={className}>
-        <AnimatePresence exitBeforeEnter initial={false}>
-          <Switch>
-            <Route path="/" exact component={Search} />
-            <Route path="/forecast/:lat/:lon" component={Forecast} />
-            <Route
-              component={() => {
-                return <Redirect to="/" />;
-              }}
-            />
-          </Switch>
+          <AnimatePresence exitBeforeEnter initial={false}>
+            <Switch>
+              <Route path="/" exact component={Search} />
+              <Route path="/forecast/:lat/:lon" component={Forecast} />
+              <Route
+                component={() => {
+                  return <Redirect to="/" />;
+                }}
+              />
+            </Switch>
           </AnimatePresence>
         </div>
       </AppWrapper>

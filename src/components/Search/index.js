@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 import { usePosition } from 'use-position';
@@ -19,54 +19,54 @@ margin-top: 15vh;
 text-align: left;
 `
 
-const Search = withRouter(({history, className}) => {
-    const [location, setLocation] = useState({});
-    const { latitude, longitude, timestamp } = usePosition();
-    const [formError, setFormError] = useState("");
-    useEffect(() => {
-        let isSubscribed = true;
-    
-        const getCity = async () => {
-          try {
-            await fetch(
-              `${config.API.URL}/locate?lat=${latitude}&long=${longitude}`,
-              {
-                mode: "cors"
-              }
-            )
-              .then(response => response.json())
-              .then(data => {
-                if (isSubscribed){
-                    setLocation(data);
-                } 
-              })
-          } catch (e) {
-            console.error(e);
+const Search = withRouter(({ history, className }) => {
+  const [location, setLocation] = useState({});
+  const { latitude, longitude, timestamp } = usePosition();
+  const [formError, setFormError] = useState("");
+  useEffect(() => {
+    let isSubscribed = true;
+
+    const getCity = async () => {
+      try {
+        await fetch(
+          `${config.API.URL}/locate?lat=${latitude}&long=${longitude}`,
+          {
+            mode: "cors"
           }
-        };
-        if(timestamp)
-            getCity();
-
-        return () => (isSubscribed = false);
-      }, [latitude, longitude, timestamp]);
-
-      const validateSearchForm = (e) => {
-        //change out form validation logic
-        if(!e.target[0].value){
-            setFormError("Location is required");
-        } else {
-            history.push(`/forecast/${location.lat}/${location.long}`);
-        }
+        )
+          .then(response => response.json())
+          .then(data => {
+            if (isSubscribed) {
+              setLocation(data);
+            }
+          })
+      } catch (e) {
+        console.error(e);
       }
-    return (
-        <SearchWrapper className={className}>
-            <h2 className={className}>Enter your location:</h2>
-            <form name="locationSearch" onSubmit={validateSearchForm} className={className} > 
-                <input name="location" type="text" placeholder="Enter your City, State" value={location.loc} className={className} onChange={(e)=> setLocation(e.target.value)}></input>
-                <button type="submit" className={`${className} btn-primary`}>Search</button>
-            </form>
-        </SearchWrapper>
-    )
+    };
+    if (timestamp)
+      getCity();
+
+    return () => (isSubscribed = false);
+  }, [latitude, longitude, timestamp]);
+
+  const validateSearchForm = (e) => {
+    //change out form validation logic
+    if (!e.target[0].value) {
+      setFormError("Location is required");
+    } else {
+      history.push(`/forecast/${location.lat}/${location.long}`);
+    }
+  }
+  return (
+    <SearchWrapper className={className}>
+      <h2 className={className}>Enter your location:</h2>
+      <form name="locationSearch" onSubmit={validateSearchForm} className={className} >
+        <input name="location" type="text" placeholder="Enter your City, State" value={location.loc} className={className} onChange={(e) => setLocation(e.target.value)}></input>
+        <button type="submit" className={`${className} btn-primary`}>Search</button>
+      </form>
+    </SearchWrapper>
+  )
 });
 
 export default styled(Search)`
