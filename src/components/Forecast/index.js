@@ -147,7 +147,7 @@ export default styled(Forecast)`
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
   }
   .weatherCurrent {
     display: flex;
@@ -162,6 +162,9 @@ export default styled(Forecast)`
   }
   .weatherCurrent > div > span {
     font-size: 16px;
+  }
+  .weatherDetails{
+    padding-left: 16px;
   }
   .weatherGraph {
     height:100%;
