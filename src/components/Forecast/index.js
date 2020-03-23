@@ -2,6 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { motion } from "framer-motion";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faChevronCircleLeft
+} from "@fortawesome/free-solid-svg-icons";
 import config from "../../config"
 import weatherIcons from "../../resources/weatherIcons";
 import LineGraph from "./LineGraph";
@@ -20,7 +24,7 @@ const ForecastWrapper = styled.div`
   text-align: left;
 `;
 
-const Forecast = ({ className }) => {
+const Forecast = ({ className, history }) => {
   const params = useParams();
   const [forecastData, setForecastData] = useState({});
   const [extended, setExtended] = useState({});
@@ -83,56 +87,62 @@ const Forecast = ({ className }) => {
     return [{
       id: `Temperature`,
       color: "hsl(185, 70%, 50%)",
-      data: graphData.map(metric => { 
+      data: graphData.map(metric => {
         let dt = new Date(metric.dt * 1000)
-        return { x: `${dt.toLocaleDateString()} ${dt.toLocaleTimeString()}`, y: metric.main.temp } })
+        return { x: `${dt.toLocaleDateString()} ${dt.toLocaleTimeString()}`, y: metric.main.temp }
+      })
     }];
 
   };
 
   if (forecastData.current && forecastData.current.weather && !loading) {
     return (
-      <div style={{ display: "flex;" }}>
-        <ForecastWrapper className={className}>
-          <h3 className={className}>Your forecast for {forecastData.current.name}.</h3>
-          <span className={className}>
-            {new Date(forecastData.current.dt * 1000).toLocaleString()}
-          </span>
-          <span className={className}>
-            {forecastData.current.weather
-              .map(weather => titleCase(weather.description))
-              .join(", ")}
-          </span>
-          <div className={`weatherContainer ${className}`}>
-            <div className={`weatherCurrent ${className}`}>
-              <img
-                alt="weather icon"
-                src={getWeatherIcon(
-                  forecastData.current.weather[0].id,
-                  forecastData.current.dt,
-                  forecastData.current.sys.sunrise,
-                  forecastData.current.sys.sunset
-                )}
-                className={`weathericon ${className}`}
-              />
-              <div className={className}>
-                {Math.ceil(forecastData.current.main.temp)}
-                <span>°F</span>
-              </div>
-            </div>
-            <div className={`weatherDetails ${className}`}>
-              <div>Humitidy: {forecastData.current.main.humidity}%</div>
-              <div>Wind: {degreesToDirection(forecastData.current.wind.deg)} {Math.ceil(forecastData.current.wind.speed)}mph</div>
+      <ForecastWrapper className={className}>
+        <span className={`goBack ${className}`} onClick={() => history.goBack()}>
+          <FontAwesomeIcon
+            icon={faChevronCircleLeft}
+            className={`icon ${className}`}
+          />{" "}
+        Back to Home
+      </span>
+        <h3 className={className}>Your forecast for {forecastData.current.name}.</h3>
+        <span className={className}>
+          {new Date(forecastData.current.dt * 1000).toLocaleString()}
+        </span>
+        <span className={className}>
+          {forecastData.current.weather
+            .map(weather => titleCase(weather.description))
+            .join(", ")}
+        </span>
+        <div className={`weatherContainer ${className}`}>
+          <div className={`weatherCurrent ${className}`}>
+            <img
+              alt="weather icon"
+              src={getWeatherIcon(
+                forecastData.current.weather[0].id,
+                forecastData.current.dt,
+                forecastData.current.sys.sunrise,
+                forecastData.current.sys.sunset
+              )}
+              className={`weathericon ${className}`}
+            />
+            <div className={className}>
+              {Math.ceil(forecastData.current.main.temp)}
+              <span>°F</span>
             </div>
           </div>
-          <div className={`weatherGraph ${className}`}>
-            <h3 className={className}>5 day temperature</h3>
-            <LineGraph
-              leftAxis={"Temperature (°F)"}
-              data={manipulateGraphData(forecastData.extended.list)}
-            /></div>
-        </ForecastWrapper>
-      </div>
+          <div className={`weatherDetails ${className}`}>
+            <div>Humitidy: {forecastData.current.main.humidity}%</div>
+            <div>Wind: {degreesToDirection(forecastData.current.wind.deg)} {Math.ceil(forecastData.current.wind.speed)}mph</div>
+          </div>
+        </div>
+        <div className={`weatherGraph ${className}`}>
+          <h3 className={className}>5 day temperature</h3>
+          <LineGraph
+            leftAxis={"Temperature (°F)"}
+            data={manipulateGraphData(forecastData.extended.list)}
+          /></div>
+      </ForecastWrapper>
     );
   } else {
     return null;
@@ -140,6 +150,16 @@ const Forecast = ({ className }) => {
 };
 
 export default styled(Forecast)`
+.goBack {
+  font-weight: 400;
+  font-style: normal;
+  font-size: 14px;
+  color: #991F3D;
+}
+.goBack:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
   h3 {
     margin-top:0px;
   }
@@ -168,7 +188,7 @@ export default styled(Forecast)`
   }
   .weatherGraph {
     height:100%;
-    max-height: calc(79vh - 2rem - 85px - 21px - 21px - 1em);
+    max-height: calc(79vh - 19px - 2rem - 85px - 21px - 21px - 1em);
     width: 100%;
     background-color: white;
   }
