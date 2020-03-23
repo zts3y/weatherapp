@@ -7,7 +7,7 @@ import weatherIcons from "../../resources/weatherIcons";
 import LineGraph from "./LineGraph";
 
 const ForecastWrapper = styled.div`
-  height: 74vh;
+  height: 79vh;
   width: 60vw;
   min-width: 254px;
   display: flex;
@@ -83,52 +83,55 @@ const Forecast = ({ className }) => {
     return [{
       id: `Temperature`,
       color: "hsl(185, 70%, 50%)",
-      data: graphData.map(metric => {return { x: metric.dt, y: metric.main.temp }})
+      data: graphData.map(metric => { 
+        let dt = new Date(metric.dt * 1000)
+        return { x: `${dt.toLocaleDateString()} ${dt.toLocaleTimeString()}`, y: metric.main.temp } })
     }];
 
   };
 
   if (forecastData.current && forecastData.current.weather && !loading) {
     return (
-      <div style={{display:"flex;"}}>
-      <ForecastWrapper className={className}>
-        <h3 className={className}>Your forecast for {forecastData.current.name}.</h3>
-        <span className={className}>
-          {new Date(forecastData.current.dt * 1000).toLocaleString()}
-        </span>
-        <span className={className}>
-          {forecastData.current.weather
-            .map(weather => titleCase(weather.description))
-            .join(", ")}
-        </span>
-        <div className={`weatherContainer ${className}`}>
-          <div className={`weatherCurrent ${className}`}>
-            <img
-              alt="weather icon"
-              src={getWeatherIcon(
-                forecastData.current.weather[0].id,
-                forecastData.current.dt,
-                forecastData.current.sys.sunrise,
-                forecastData.current.sys.sunset
-              )}
-              className={`weathericon ${className}`}
-            />
-            <div className={className}>
-              {Math.ceil(forecastData.current.main.temp)}
-              <span>°F</span>
+      <div style={{ display: "flex;" }}>
+        <ForecastWrapper className={className}>
+          <h3 className={className}>Your forecast for {forecastData.current.name}.</h3>
+          <span className={className}>
+            {new Date(forecastData.current.dt * 1000).toLocaleString()}
+          </span>
+          <span className={className}>
+            {forecastData.current.weather
+              .map(weather => titleCase(weather.description))
+              .join(", ")}
+          </span>
+          <div className={`weatherContainer ${className}`}>
+            <div className={`weatherCurrent ${className}`}>
+              <img
+                alt="weather icon"
+                src={getWeatherIcon(
+                  forecastData.current.weather[0].id,
+                  forecastData.current.dt,
+                  forecastData.current.sys.sunrise,
+                  forecastData.current.sys.sunset
+                )}
+                className={`weathericon ${className}`}
+              />
+              <div className={className}>
+                {Math.ceil(forecastData.current.main.temp)}
+                <span>°F</span>
+              </div>
+            </div>
+            <div className={`weatherDetails ${className}`}>
+              <div>Humitidy: {forecastData.current.main.humidity}%</div>
+              <div>Wind: {degreesToDirection(forecastData.current.wind.deg)} {Math.ceil(forecastData.current.wind.speed)}mph</div>
             </div>
           </div>
-          <div className={`weatherDetails ${className}`}>
-            <div>Humitidy: {forecastData.current.main.humidity}%</div>
-            <div>Wind: {degreesToDirection(forecastData.current.wind.deg)} {Math.ceil(forecastData.current.wind.speed)}mph</div>
-          </div>
-        </div>
-        <div className={`weatherGraph ${className}`}>
-        <LineGraph
-          leftAxis={"Temperature"}
-          data={manipulateGraphData(forecastData.extended.list)}
-        /></div>
-      </ForecastWrapper>
+          <div className={`weatherGraph ${className}`}>
+            <h3 className={className}>5 day temperature</h3>
+            <LineGraph
+              leftAxis={"Temperature (°F)"}
+              data={manipulateGraphData(forecastData.extended.list)}
+            /></div>
+        </ForecastWrapper>
       </div>
     );
   } else {
@@ -137,6 +140,9 @@ const Forecast = ({ className }) => {
 };
 
 export default styled(Forecast)`
+  h3 {
+    margin-top:0px;
+  }
   .weatherContainer {
     display: flex;
     flex-direction: row;
@@ -158,8 +164,12 @@ export default styled(Forecast)`
     font-size: 16px;
   }
   .weatherGraph {
-    height:600px;
+    height:100%;
+    max-height: calc(79vh - 2rem - 85px - 21px - 21px - 1em);
     width: 100%;
     background-color: white;
+  }
+  .weatherGraph > h3{
+    text-align:center;
   }
 `;
