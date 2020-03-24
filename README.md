@@ -9,7 +9,7 @@
 1. Ensure that the environemnt variable for the OpenWeather API has been set per above.
 2. Run `npm install`
 3. In one console window/tab execute `npm start` to start the React project
-4. In a separate console window/tab execute `npm start:lambda` to spin up the APIs
+4. In a separate console window/tab execute `npm run start:lambda` to spin up the APIs
 
 ## Available Scripts
 
