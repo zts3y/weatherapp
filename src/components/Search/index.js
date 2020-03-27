@@ -22,7 +22,6 @@ const SearchWrapper = styled.div`
 export const Search = ({ history, className }) => {
   const [location, setLocation] = useState({});
   const { latitude, longitude, timestamp } = usePosition();
-  const [formError, setFormError] = useState("");
   useEffect(() => {
     let isSubscribed = true;
 
@@ -47,15 +46,12 @@ export const Search = ({ history, className }) => {
     if (timestamp) getCity();
 
     return () => (isSubscribed = false);
-  }, [latitude, longitude, timestamp]);
+  }, [latitude,longitude]); // eslint-disable-line
 
   const validateSearchForm = e => {
     //change out form validation logic
-    if (!e.target[0].value) {
-      setFormError("Location is required");
-    } else {
-      history.push(`/forecast/${location.lat}/${location.long}`);
-    }
+    history.push(`/forecast/${location.lat}/${location.long}`);
+    
   };
   return (
     <SearchWrapper className={className}>
@@ -73,7 +69,7 @@ export const Search = ({ history, className }) => {
           className={className}
           onChange={e => setLocation(e.target.value)}
         ></input>
-        <button type="submit" className={`${className} btn-primary`}>
+        <button type="submit" disabled={()=> Object.keys(location).length>0 ? false: true}className={`${className} btn-primary`}>
           Search
         </button>
       </form>
