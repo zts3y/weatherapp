@@ -150,9 +150,9 @@ const Forecast = ({ className }) => {
           /></div>
       </ForecastWrapper>
     );
-  } else if(forecastData.current && !forecastData.current.weather){
-    return(
-      <ForecastWrapper  className={className} style={{
+  } else if (forecastData.current && !forecastData.current.weather) {
+    return (
+      <ForecastWrapper className={className} style={{
         height: "50px",
         width: "auto"
       }}>
@@ -163,7 +163,7 @@ const Forecast = ({ className }) => {
           />{" "}
         Back to Home
       </span>
-      <h3 className={className}>{`Requested ${titleCase(forecastData.current.message)}. Return to home and try again.`}</h3>
+        <h3 className={className}>{`Requested ${titleCase(forecastData.current.message)}. Return to home and try again.`}</h3>
       </ForecastWrapper>
     );
   }

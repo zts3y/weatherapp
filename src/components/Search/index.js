@@ -52,10 +52,10 @@ export const Search = ({ history, className }) => {
   const validateSearchForm = e => {
     //change out form validation logic
     e.stopPropagation();
-    if(changedLoc || timestamp === null){
+    if (changedLoc || timestamp === null) {
       history.push(`/forecast/${location.loc}`);
 
-    } else{
+    } else {
       history.push(`/forecast/${location.lat}/${location.long}`);
     }
 
@@ -63,7 +63,7 @@ export const Search = ({ history, className }) => {
   return (
     <SearchWrapper className={className}>
       <h2 className={className}>Enter your location:</h2>
-        <div className={`${className} form`}>
+      <div className={`${className} form`}>
         <input
           name="location"
           type="text"
@@ -71,11 +71,11 @@ export const Search = ({ history, className }) => {
           value={location.loc}
           className={className}
           onChange={e => {
-            setLocation({loc : e.target.value});
+            setLocation({ loc: e.target.value });
             setChangedLoc(true);
           }}
           onKeyPress={e => {
-            if(e.key === "Enter" && location.loc)
+            if (e.key === "Enter" && location.loc)
               validateSearchForm(e);
           }}
         ></input>
