@@ -51,6 +51,7 @@ export const Search = ({ history, className }) => {
 
   const validateSearchForm = e => {
     //change out form validation logic
+    e.stopPropagation();
     if(changedLoc || timestamp === null){
       history.push(`/forecast/${location.loc}`);
 
@@ -62,26 +63,26 @@ export const Search = ({ history, className }) => {
   return (
     <SearchWrapper className={className}>
       <h2 className={className}>Enter your location:</h2>
-      <form
-        name="locationSearch"
-        onSubmit={validateSearchForm}
-        className={className}
-      >
+        <div className={`${className} form`}>
         <input
           name="location"
           type="text"
-          placeholder="Enter your City, State or Zipcode"
+          placeholder="Enter your City, State or Zip code"
           value={location.loc}
           className={className}
           onChange={e => {
             setLocation({loc : e.target.value});
             setChangedLoc(true);
           }}
+          onKeyPress={e => {
+            if(e.key === "Enter" && location.loc)
+              validateSearchForm(e);
+          }}
         ></input>
-        <button type="submit" disabled={!location.loc} className={`${className} btn-primary`}>
+        <button type="submit" disabled={!location.loc} onClick={validateSearchForm} className={`${className} btn-primary`}>
           Search
         </button>
-      </form>
+      </div>
     </SearchWrapper>
   );
 };
@@ -93,7 +94,7 @@ export default styled(withRouter(Search))`
   p{
     margin: 0px;
   }
-  form {
+  .form {
     display: flex;
   }
   input {

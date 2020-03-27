@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import styled from "styled-components";
-import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronCircleLeft
@@ -30,8 +29,9 @@ const ForecastWrapper = styled.div`
 
 `;
 
-const Forecast = ({ className, history }) => {
+const Forecast = ({ className }) => {
   const params = useParams();
+  const history = useHistory();
   const [forecastData, setForecastData] = useState({});
   const [extended, setExtended] = useState({});
   const [loading, setLoading] = useState(true);
