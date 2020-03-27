@@ -14,7 +14,7 @@ exports.handler = async function (event, context, callback) {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({loc: data.city
-            ? `${data.city}, ${data.state} ${data.prov}`
+            ? `${data.city}, ${data.state}`
             : `${event.queryStringParameters.lat}, ${event.queryStringParameters.long}`,
             lat: parseFloat(event.queryStringParameters.lat),
             long: parseFloat(event.queryStringParameters.long)

@@ -42,7 +42,7 @@ const Forecast = ({ className, history }) => {
     const getForecast = async () => {
       try {
         await fetch(
-          `${config.API.URL}/forecast?lat=${params.lat}&lon=${params.lon}`,
+          params.loc ? `${config.API.URL}/forecast?loc=${params.loc}` : `${config.API.URL}/forecast?lat=${params.lat}&lon=${params.lon}`,
           {
             mode: "cors"
           }
@@ -55,7 +55,7 @@ const Forecast = ({ className, history }) => {
           })
           .then(setLoading(false));
       } catch (e) {
-        console.error(e);
+        console.log(e)
       }
     };
 
@@ -104,7 +104,7 @@ const Forecast = ({ className, history }) => {
   if (forecastData.current && forecastData.current.weather && !loading) {
     return (
       <ForecastWrapper className={className}>
-        <span className={`goBack ${className}`} onClick={() => history.goBack()}>
+        <span className={`goBack ${className}`} onClick={() => history.push("/")}>
           <FontAwesomeIcon
             icon={faChevronCircleLeft}
             className={`icon ${className}`}
@@ -150,9 +150,24 @@ const Forecast = ({ className, history }) => {
           /></div>
       </ForecastWrapper>
     );
-  } else {
-    return null;
+  } else if(forecastData.current && !forecastData.current.weather){
+    return(
+      <ForecastWrapper  className={className} style={{
+        height: "50px",
+        width: "auto"
+      }}>
+        <span className={`goBack ${className}`} onClick={() => history.push("/")}>
+          <FontAwesomeIcon
+            icon={faChevronCircleLeft}
+            className={`icon ${className}`}
+          />{" "}
+        Back to Home
+      </span>
+      <h3 className={className}>{`Requested ${titleCase(forecastData.current.message)}. Return to home and try again.`}</h3>
+      </ForecastWrapper>
+    );
   }
+  else return null;
 };
 
 export default styled(Forecast)`

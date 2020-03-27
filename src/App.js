@@ -30,6 +30,7 @@ function App({ className }) {
             <Switch>
               <Route path="/" exact component={Search} />
               <Route path="/forecast/:lat/:lon" component={Forecast} />
+              <Route path="/forecast/:loc" component={Forecast} />
               <Route
                 component={() => {
                   return <Redirect to="/" />;
