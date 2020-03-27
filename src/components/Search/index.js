@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { withRouter } from "react-router-dom";
+import { withRouter, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { usePosition } from "use-position";
 import config from "../../config";
@@ -19,7 +19,8 @@ const SearchWrapper = styled.div`
   text-align: left;
 `;
 
-export const Search = ({ history, className }) => {
+export const Search = ({ className }) => {
+  const history = useHistory();
   const [location, setLocation] = useState({});
   const { latitude, longitude, timestamp } = usePosition();
   const [changedLoc, setChangedLoc] = useState(false);

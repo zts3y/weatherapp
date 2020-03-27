@@ -33,7 +33,6 @@ const Forecast = ({ className }) => {
   const params = useParams();
   const history = useHistory();
   const [forecastData, setForecastData] = useState({});
-  const [extended, setExtended] = useState({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -55,14 +54,14 @@ const Forecast = ({ className }) => {
           })
           .then(setLoading(false));
       } catch (e) {
-        console.log(e)
+        console.error(e)
       }
     };
 
     getForecast();
 
     return () => (isSubscribed = false);
-  }, [params.q]);
+  }, [params.loc, params.lat, params.lon]);
 
   const getWeatherIcon = (id, time, sunrise, sunset) => {
     if (time > sunrise && time < sunset) {
@@ -111,7 +110,7 @@ const Forecast = ({ className }) => {
           />{" "}
         Back to Home
       </span>
-        <h3 className={className}>Your forecast for {forecastData.current.name}.</h3>
+        <h3 className={className} data-testid="app-title">Your forecast for {forecastData.current.name}.</h3>
         <span className={className}>
           {new Date(forecastData.current.dt * 1000).toLocaleString()}
         </span>

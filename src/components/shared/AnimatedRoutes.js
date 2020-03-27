@@ -1,11 +1,11 @@
 import React from "react";
-import {AnimatePresence, motion} from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import {
     Switch,
     useLocation
-  } from "react-router-dom";
+} from "react-router-dom";
 
-const AnimatedRoutes = ({ children, exitBeforeEnter = true, initial=true}) => {
+const AnimatedRoutes = ({ children, exitBeforeEnter = true, initial = true }) => {
     const location = useLocation()
     return (
         <AnimatePresence exitBeforeEnter={exitBeforeEnter}>
