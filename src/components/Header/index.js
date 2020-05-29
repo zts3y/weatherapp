@@ -17,7 +17,7 @@ const Header = ({ className }) => {
             <motion.div animate={{ rotate: 360 }} transition={{ loop: "Infinity", duration: 9, ease: "linear" }}>
                 <a href="/" className={className}><Logo className={`${className} logo`} /></a>
             </motion.div>
-            <span data-testid="app-title">Palmetto Weather</span>
+            <span data-testid="app-title">Weather</span>
         </HeaderWrapper>
     )
 }
